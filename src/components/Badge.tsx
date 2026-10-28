@@ -1,4 +1,4 @@
-type BadgeProps = { children: React.ReactNode; tone?: "teal" | "warning" | "neutral" };
+type BadgeProps = { children: React.ReactNode; tone?: "teal" | "warning" | "neutral" | "high" };
 
 export default function Badge({ children, tone = "teal" }: BadgeProps) {
   return <span className={`badge badge-${tone}`}>{children}</span>;

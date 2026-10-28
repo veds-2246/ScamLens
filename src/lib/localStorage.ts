@@ -25,7 +25,9 @@ export function saveHistory(entry: HistoryEntry, includeInput = false) {
     input: undefined,
     result: entry.kind === "url"
       ? { ...entry.result, url: "[redacted]", normalizedUrl: `https://${entry.label}/` }
-      : entry.result,
+      : "findings" in entry.result
+        ? { ...entry.result, findings: entry.result.findings.map((finding) => ({ ...finding, matchedPhrase: "[redacted]" })) }
+        : entry.result,
   };
   try {
     window.localStorage.setItem(HISTORY_KEY, JSON.stringify([safeEntry, ...getHistory()].slice(0, 50)));

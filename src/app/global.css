@@ -336,3 +336,11 @@ body {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* Account controls in the authenticated app header */
+.app-account{display:flex;align-items:center;gap:14px;min-width:0}
+.app-account .header-status{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-signout{border:1px solid var(--line,#dfe7dc);border-radius:9px;padding:8px 11px;background:transparent;color:inherit;font:inherit;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap}
+.account-signout:hover{background:var(--surface-soft,#f3f7ef)}
+@media(max-width:600px){.app-account{gap:7px}.app-account .header-status{max-width:135px;font-size:10px}.account-signout{padding:7px 8px;font-size:10px}}

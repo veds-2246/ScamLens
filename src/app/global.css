@@ -150,3 +150,45 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 @media (prefers-reduced-motion: reduce) {
   .risk-orb.is-loading { animation: none; }
 }
+
+
+/* Interactive learning quiz */
+.lesson-points { display: grid; gap: 1rem; margin-top: 1.75rem; }
+.lesson-points > div { align-items: flex-start; display: flex; gap: 0.8rem; }
+.lesson-point-icon { align-items: center; background: rgba(255,255,255,0.8); border: 1px solid var(--color-border); border-radius: 0.7rem; color: var(--color-primary); display: inline-flex; flex: 0 0 2.25rem; font-family: var(--font-technical); font-size: var(--text-metadata); font-weight: 700; height: 2.25rem; justify-content: center; }
+.lesson-points p { display: grid; gap: 0.15rem; margin: 0; }
+.lesson-points p strong { font-size: var(--text-supporting); }
+.lesson-points p span { color: var(--color-secondary); font-size: var(--text-supporting); }
+.quiz-content { display: flex; flex: 1; flex-direction: column; }
+.quiz-progress-row, .quiz-footer { align-items: center; display: flex; gap: 1rem; justify-content: space-between; }
+.quiz-score { color: var(--color-primary-dark); font-family: var(--font-technical); font-size: var(--text-supporting); font-weight: 700; }
+.quiz-progress { appearance: none; background: #e7efeb; border: 0; border-radius: 99rem; display: block; height: 0.45rem; margin: 0.7rem 0 1.4rem; overflow: hidden; width: 100%; }
+.quiz-progress::-webkit-progress-bar { background: #e7efeb; border-radius: 99rem; }
+.quiz-progress::-webkit-progress-value { background: var(--color-primary); border-radius: 99rem; transition: width 180ms ease; }
+.quiz-progress::-moz-progress-bar { background: var(--color-primary); border-radius: 99rem; }
+.quiz-question { font-size: 1.15rem; line-height: 1.45; }
+.quiz-options { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
+.quiz-option { align-items: center; background: rgba(247,250,249,0.72); border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); display: flex; gap: 0.75rem; padding: 0.8rem; text-align: left; transition: background 150ms ease, border-color 150ms ease; width: 100%; }
+.quiz-option:hover:not(:disabled) { background: var(--color-pale-teal); border-color: #b8e9da; }
+.quiz-option:disabled { cursor: default; }
+.quiz-option-letter { align-items: center; background: white; border: 1px solid var(--color-border); border-radius: 0.45rem; color: var(--color-secondary); display: inline-flex; flex: 0 0 1.8rem; font-family: var(--font-technical); font-size: var(--text-supporting); font-weight: 700; height: 1.8rem; justify-content: center; }
+.quiz-option.is-selected { border-color: var(--color-primary); }
+.quiz-option.is-correct { background: #e6f7ee; border-color: #83c9a7; }
+.quiz-option.is-incorrect { background: #fff0f0; border-color: #e7a4aa; }
+.quiz-option-mark { color: var(--color-primary-dark); font-weight: 800; margin-left: auto; }
+.quiz-feedback { border-radius: var(--radius-sm); margin-top: 1rem; padding: 1rem; }
+.quiz-feedback.is-correct { background: #e6f7ee; color: #155c3c; }
+.quiz-feedback.is-incorrect { background: #fff0f0; color: #8f2430; }
+.quiz-feedback p { font-size: var(--text-supporting); margin: 0.5rem 0 0; }
+.quiz-hint { color: var(--color-secondary); font-size: var(--text-supporting); margin: 1rem 0 0; }
+.quiz-footer { border-top: 1px solid var(--color-border); margin-top: auto; padding-top: 1.25rem; }
+.quiz-complete { align-items: flex-start; display: flex; flex: 1; flex-direction: column; justify-content: center; min-height: 20rem; }
+.quiz-complete-icon { align-items: center; background: var(--color-pale-teal); border-radius: 50%; color: var(--color-primary); display: flex; font-size: 1.5rem; height: 3rem; justify-content: center; margin-bottom: 1.25rem; width: 3rem; }
+.quiz-final-score { align-items: baseline; display: flex; gap: 0.35rem; margin: 1rem 0 0; }
+.quiz-final-score strong { color: var(--color-primary-dark); font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
+.quiz-final-score span { color: var(--color-secondary); }
+.quiz-complete .button { margin-top: 1.5rem; }
+@media (max-width: 700px) {
+  .quiz-footer { align-items: stretch; flex-direction: column; }
+  .quiz-footer .button { width: 100%; }
+}

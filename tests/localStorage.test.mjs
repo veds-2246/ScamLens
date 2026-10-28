@@ -105,6 +105,14 @@ test("URL history redacts the submitted URL and query string by default", () => 
   assert.equal(getHistory()[0].result.normalizedUrl, "https://example.com/");
 });
 
+test("saving an updated record replaces its previous snapshot instead of duplicating it", () => {
+  installFakeWindow();
+  saveHistory(messageEntry("same-id", "first"));
+  saveHistory({ ...messageEntry("same-id", "second"), score: 42 });
+  assert.equal(getHistory().length, 1);
+  assert.equal(getHistory()[0].score, 42);
+});
+
 test("history supports deletion and clearing", () => {
   installFakeWindow();
   saveHistory(messageEntry("one", "first"));

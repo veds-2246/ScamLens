@@ -7,6 +7,19 @@ export type UrlSignal = {
   severity: "low" | "medium" | "high";
 };
 
+export type ThreatIntelStatus = "match" | "no_match" | "unconfigured" | "unavailable";
+
+export type ThreatIntelResult = {
+  provider: "URLhaus";
+  status: ThreatIntelStatus;
+  checkedAt: string;
+  message: string;
+  urlStatus?: string;
+  threat?: string;
+  dateAdded?: string;
+  tags?: string[];
+};
+
 export type UrlCheckResult = {
   kind: "url";
   url: string;
@@ -18,4 +31,5 @@ export type UrlCheckResult = {
   signals: UrlSignal[];
   nextSteps: string[];
   limitation: string;
+  threatIntel?: ThreatIntelResult;
 };

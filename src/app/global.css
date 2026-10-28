@@ -45,6 +45,7 @@ body {
 button, textarea { font: inherit; }
 button { cursor: pointer; }
 button:focus-visible, textarea:focus-visible { outline: 3px solid rgba(8, 127, 104, 0.35); outline-offset: 3px; }
+.visually-hidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; white-space: nowrap; width: 1px; }
 
 .app-shell { margin: 0 auto; max-width: var(--content-width); min-height: 100vh; padding: 2.5rem 2rem 5rem; }
 .app-header { align-items: center; display: flex; justify-content: space-between; padding-bottom: 2.5rem; }
@@ -167,7 +168,7 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 .quiz-progress::-webkit-progress-value { background: var(--color-primary); border-radius: 99rem; transition: width 180ms ease; }
 .quiz-progress::-moz-progress-bar { background: var(--color-primary); border-radius: 99rem; }
 .quiz-question { font-size: 1.15rem; line-height: 1.45; }
-.quiz-options { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
+.quiz-options { border: 0; display: grid; gap: 0.6rem; margin: 1.25rem 0 0; min-inline-size: 0; padding: 0; }
 .quiz-option { align-items: center; background: rgba(247,250,249,0.72); border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); display: flex; gap: 0.75rem; padding: 0.8rem; text-align: left; transition: background 150ms ease, border-color 150ms ease; width: 100%; }
 .quiz-option:hover:not(:disabled) { background: var(--color-pale-teal); border-color: #b8e9da; }
 .quiz-option:disabled { cursor: default; }
@@ -191,4 +192,7 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 @media (max-width: 700px) {
   .quiz-footer { align-items: stretch; flex-direction: column; }
   .quiz-footer .button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button, .nav-item, .sample-option, .quiz-option, .quiz-progress::-webkit-progress-value { transition: none; }
 }

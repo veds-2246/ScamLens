@@ -102,12 +102,13 @@ export default function LearnPage() {
               </div>
               <progress
                 className="quiz-progress"
-                value={questionIndex + (hasAnswered ? 1 : 0)}
+                value={questionIndex + 1}
                 max={quizQuestions.length}
                 aria-label="Quiz progress"
               />
               <h3 className="quiz-question">{question.prompt}</h3>
-              <div className="quiz-options" role="group" aria-label="Answer choices">
+              <fieldset className="quiz-options">
+                <legend className="visually-hidden">Answer choices</legend>
                 {question.options.map((option, optionIndex) => {
                   const isSelected = selectedOption === optionIndex;
                   const isAnswer = optionIndex === question.correctOption;
@@ -131,7 +132,7 @@ export default function LearnPage() {
                     </button>
                   );
                 })}
-              </div>
+              </fieldset>
               {hasAnswered ? (
                 <div className={`quiz-feedback ${isCorrect ? "is-correct" : "is-incorrect"}`} role="status" aria-live="polite">
                   <strong>{isCorrect ? "Correct. Nice catch!" : "Not quite. Here's the signal."}</strong>
@@ -142,7 +143,7 @@ export default function LearnPage() {
                 <p className="quiz-hint">Choose the safest response. You’ll see an explanation after answering.</p>
               )}
               <div className="quiz-footer">
-                <span className="supporting-text">No timer. Take your time.</span>
+                <span className="supporting-text">Practice only. No timer or security guarantee.</span>
                 <Button type="button" onClick={continueQuiz} disabled={!hasAnswered}>
                   {questionIndex === quizQuestions.length - 1 ? "See results" : "Next question"}
                 </Button>

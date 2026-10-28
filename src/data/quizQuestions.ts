@@ -1,6 +1,67 @@
 export const quizQuestions = [
   {
     id: "urgency",
-    prompt: "Which tactic creates pressure to act before thinking?",
+    prompt: "A text says your bank account will be locked in 10 minutes unless you act. What is the strongest warning sign?",
+    options: [
+      "It mentions a bank account",
+      "It creates urgency to stop you thinking carefully",
+      "It uses a short message",
+      "It arrives during the day",
+    ],
+    correctOption: 1,
+    explanation: "Scammers often manufacture urgency so you act before checking through an independent, trusted channel.",
+    takeaway: "Pause. Open your bank's official app or type its known website address yourself.",
+  },
+  {
+    id: "otp",
+    prompt: "Someone claiming to be support asks you to read out a one-time password (OTP). What should you do?",
+    options: [
+      "Share it if they know your name",
+      "Share only the first few digits",
+      "Do not share it and contact the organisation through an official channel",
+      "Ask them to send another OTP",
+    ],
+    correctOption: 2,
+    explanation: "An OTP can authorise access or a transaction. A caller's claimed identity is not proof they are legitimate.",
+    takeaway: "Never disclose OTPs, passwords, PINs or recovery codes to a caller or message sender.",
+  },
+  {
+    id: "links",
+    prompt: "A delivery message links to a domain you do not recognise and asks you to pay a small redelivery fee. What's the safest first move?",
+    options: [
+      "Open the link because the fee is small",
+      "Reply and ask whether it is genuine",
+      "Check delivery status using the courier's official app or website",
+      "Enter your card details but not your billing address",
+    ],
+    correctOption: 2,
+    explanation: "Unexpected links and small fees can be used to collect payment details. A familiar logo or believable story does not verify a link.",
+    takeaway: "Navigate independently to the official service instead of using the message link.",
+  },
+  {
+    id: "prize",
+    prompt: "You are told you've won a prize you never entered for, but must pay a processing fee today. What does this suggest?",
+    options: [
+      "A normal prize collection process",
+      "A possible prize or advance-fee scam",
+      "That the sender has verified your identity",
+      "That the offer is safe if the fee is refundable",
+    ],
+    correctOption: 1,
+    explanation: "Unexpected rewards paired with upfront fees or pressure are common scam patterns.",
+    takeaway: "Do not pay to unlock an unexpected prize. Verify the offer independently and protect payment details.",
+  },
+  {
+    id: "impersonation",
+    prompt: "A message appears to come from your manager and asks you to urgently buy gift cards and send the codes. What should you do?",
+    options: [
+      "Follow the request because it is from a manager",
+      "Buy one card first to test it",
+      "Verify the request using a separate known contact method",
+      "Send the codes but keep the receipts",
+    ],
+    correctOption: 2,
+    explanation: "Display names and accounts can be impersonated or compromised. Urgent unusual payment requests need independent verification.",
+    takeaway: "Call or message the person through a contact method you already trust before acting.",
   },
 ] as const;

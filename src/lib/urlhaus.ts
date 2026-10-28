@@ -54,7 +54,7 @@ export function mapUrlhausResponse(payload: unknown, checkedAt = new Date().toIS
 
   return {
     provider: "URLhaus",
-    status: status === "invalid_auth_key" ? "unavailable" : "unavailable",
+    status: "unavailable",
     checkedAt,
     message: status === "invalid_auth_key"
       ? "URLhaus rejected the server's API key. Check URLHAUS_AUTH_KEY in the deployment environment."

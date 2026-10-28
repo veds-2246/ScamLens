@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 
 export type AppView = "dashboard" | "analyze" | "url" | "history" | "learn";
 

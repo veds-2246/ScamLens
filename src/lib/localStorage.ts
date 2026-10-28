@@ -46,5 +46,5 @@ export function clearHistory() {
 }
 export function getQuizAttempts(): QuizAttempt[] { return read(QUIZ_KEY, [], quizList); }
 export function saveQuizAttempt(attempt: QuizAttempt) {
-  if (typeof window !== "undefined") { try { window.localStorage.setItem(QUIZ_KEY, JSON.stringify([attempt, ...getQuizAttempts()].slice(0, 30)); notifyStorage(); } catch { /* Storage is optional. */ } }
+  if (typeof window !== "undefined") { try { window.localStorage.setItem(QUIZ_KEY, JSON.stringify([attempt, ...getQuizAttempts()].slice(0, 30))); notifyStorage(); } catch { /* Storage is optional. */ } }
 }

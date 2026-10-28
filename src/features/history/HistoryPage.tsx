@@ -11,6 +11,8 @@ export default function HistoryPage() {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
   const [sharedId, setSharedId] = useState<string | null>(null);
   const [selected, setSelected] = useState<HistoryEntry | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<HistoryEntry | null>(null);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   useEffect(() => {
     const refresh = () => setEntries(getHistory());
@@ -24,11 +26,18 @@ export default function HistoryPage() {
   }, []);
 
   function removeAll() {
-    if (window.confirm("Clear all saved reports from this browser? This cannot be undone.")) {
-      clearHistory();
-      setEntries([]);
-      setSelected(null);
-    }
+    clearHistory();
+    setEntries([]);
+    setSelected(null);
+    setConfirmClear(false);
+  }
+
+  function confirmDelete() {
+    if (!pendingDelete) return;
+    deleteHistory(pendingDelete.id);
+    setEntries(getHistory());
+    if (selected?.id === pendingDelete.id) setSelected(null);
+    setPendingDelete(null);
   }
 
   return (
@@ -42,7 +51,7 @@ export default function HistoryPage() {
       <Card>
         <div className="card-heading">
           <div><p className="eyebrow">Saved checks</p><h2>{entries.length ? `${entries.length} recent report${entries.length === 1 ? "" : "s"}` : "No saved checks yet"}</h2></div>
-          {entries.length > 0 && <Button variant="secondary" type="button" onClick={removeAll}>Clear history</Button>}
+          {entries.length > 0 && <Button variant="secondary" type="button" onClick={() => setConfirmClear(true)}>Clear history</Button>}
         </div>
         {entries.length ? (
           <div className="history-list">
@@ -64,13 +73,7 @@ export default function HistoryPage() {
                   <Button variant="secondary" type="button" onClick={async () => { if (await shareReport(entry)) setSharedId(entry.id); }}>
                     {sharedId === entry.id ? "Copied" : "Share"}
                   </Button>
-                  <Button variant="secondary" type="button" onClick={() => {
-                    if (window.confirm("Delete this saved report?")) {
-                      deleteHistory(entry.id);
-                      setEntries(getHistory());
-                      if (selected?.id === entry.id) setSelected(null);
-                    }
-                  }}>Delete</Button>
+                  <Button variant="secondary" type="button" onClick={() => setPendingDelete(entry)}>Delete</Button>
                 </div>
                 {selected?.id === entry.id && (
                   <div className="history-detail" aria-live="polite">
@@ -89,6 +92,31 @@ export default function HistoryPage() {
           </div>
         ) : <p className="supporting-text">Run a message or URL check and it will appear here. Saving is local and can be cleared at any time.</p>}
       </Card>
+      {(pendingDelete || confirmClear) && (
+        <div className="confirm-overlay" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) {
+            setPendingDelete(null);
+            setConfirmClear(false);
+          }
+        }}>
+          <section className="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+            <div className="confirm-dialog-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M8 6V4h8v2" /><path d="m19 6-1 14H6L5 6" /><path d="M10 11v5M14 11v5" /></svg>
+            </div>
+            <p className="eyebrow">Please confirm</p>
+            <h2 id="confirm-title">{confirmClear ? "Clear all history?" : "Delete this report?"}</h2>
+            <p id="confirm-description" className="confirm-description">
+              {confirmClear
+                ? "This will permanently remove all saved checks from this browser. This action cannot be undone."
+                : <>“{pendingDelete?.label}” will be removed from your saved checks. This action cannot be undone.</>}
+            </p>
+            <div className="confirm-actions">
+              <Button variant="secondary" type="button" onClick={() => { setPendingDelete(null); setConfirmClear(false); }}>Cancel</Button>
+              <Button variant="primary" className="button-danger" type="button" onClick={confirmClear ? removeAll : confirmDelete}>Delete {confirmClear ? "all" : "report"}</Button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

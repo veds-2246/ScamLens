@@ -28,9 +28,41 @@ export function downloadReport(entry: HistoryEntry) {
   URL.revokeObjectURL(url);
 }
 
+function redactUrlQuery(value: string): string {
+  try {
+    const parsed = new URL(value);
+    parsed.search = "";
+    parsed.hash = "";
+    return parsed.toString();
+  } catch {
+    return "[redacted]";
+  }
+}
+
+export function safeReportForExport(entry: HistoryEntry): HistoryEntry {
+  const withoutInput = { ...entry, input: undefined };
+  if ("signals" in entry.result) {
+    return {
+      ...withoutInput,
+      result: {
+        ...entry.result,
+        url: redactUrlQuery(entry.result.url),
+        normalizedUrl: redactUrlQuery(entry.result.normalizedUrl),
+      },
+    };
+  }
+  return {
+    ...withoutInput,
+    result: {
+      ...entry.result,
+      findings: entry.result.findings.map((finding) => ({ ...finding, matchedPhrase: "[redacted]" })),
+    },
+  };
+}
+
 export function downloadJsonReport(entry: HistoryEntry) {
   if (typeof window === "undefined") return;
-  const blob = new Blob([JSON.stringify(entry, null, 2)], { type: "application/json;charset=utf-8" });
+  const blob = new Blob([JSON.stringify(safeReportForExport(entry), null, 2)], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url; anchor.download = `scamlens-${entry.kind}-report.json`; anchor.click();

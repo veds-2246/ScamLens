@@ -140,6 +140,12 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 .url-card input { margin-bottom: 0.2rem; }
 .url-result { border-top: 1px solid var(--color-border); display: grid; gap: 1rem; margin-top: 1.75rem; padding-top: 1.75rem; }
 .url-result h3 { margin-top: 0.5rem; }
+.threat-intel-panel { border: 1px solid var(--color-border); border-radius: var(--radius-md); display: grid; gap: 0.85rem; padding: 1rem; }
+.threat-intel-panel h3 { margin: 0; }
+.threat-intel-result { background: rgba(247,250,249,0.8); border: 1px solid var(--color-border); border-radius: var(--radius-sm); min-width: 0; overflow-wrap: anywhere; padding: 1rem; }
+.threat-intel-match { background: #fff0f0; border-color: #e7a4aa; }
+.threat-intel-no_match { background: #e6f7ee; border-color: #83c9a7; }
+.threat-intel-unconfigured, .threat-intel-unavailable { background: #fff8e8; border-color: #ead6a4; }
 .history-list { display: grid; gap: 0.75rem; }
 .history-item { align-items: center; background: rgba(247,250,249,0.7); border: 1px solid var(--color-border); border-radius: var(--radius-sm); display: flex; gap: 1rem; justify-content: space-between; min-width: 0; padding: 1rem; }
 .history-item h3 { overflow-wrap: anywhere; }

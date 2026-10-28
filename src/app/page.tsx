@@ -1,13 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import AppHeader from "@/components/AppHeader";
 import AppNavigation, { type AppView } from "@/components/AppNavigation";
-import AnalyzePage from "@/features/analyzer/AnalyzerPage";
-import LearnPage from "@/features/learning/LearnPage";
-import UrlCheckerPage from "@/features/url/UrlCheckerPage";
-import HistoryPage from "@/features/history/HistoryPage";
-import DashboardPage from "@/features/dashboard/DashboardPage";
+
+const PageLoader = () => <div className="loading-panel" role="status" aria-label="Loading page" />;
+
+const AnalyzePage = dynamic(() => import("@/features/analyzer/AnalyzerPage"), { loading: PageLoader });
+const LearnPage = dynamic(() => import("@/features/learning/LearnPage"), { loading: PageLoader });
+const UrlCheckerPage = dynamic(() => import("@/features/url/UrlCheckerPage"), { loading: PageLoader });
+const HistoryPage = dynamic(() => import("@/features/history/HistoryPage"), { loading: PageLoader });
+const DashboardPage = dynamic(() => import("@/features/dashboard/DashboardPage"), { loading: PageLoader });
 
 const APP_VIEWS: readonly AppView[] = ["dashboard", "analyze", "url", "history", "learn"];
 
@@ -17,7 +21,6 @@ function getViewFromHash(): AppView {
 }
 
 export default function Home() {
-  // Keep the server and first client render consistent, then restore the view from the URL.
   const [view, setView] = useState<AppView>("dashboard");
 
   useEffect(() => {
@@ -29,17 +32,18 @@ export default function Home() {
 
   const handleViewChange = useCallback((nextView: AppView) => {
     setView(nextView);
-    if (window.location.hash !== `#${nextView}`) {
-      window.location.hash = nextView;
-    }
+    if (window.location.hash !== `#${nextView}`) window.location.hash = nextView;
   }, []);
 
   return (
     <main className="app-shell">
       <AppHeader />
       <AppNavigation activeView={view} onChange={handleViewChange} />
-      <div className="page-content">
-        {view === "dashboard" ? <DashboardPage onOpenHistory={() => handleViewChange("history")} /> : view === "analyze" ? <AnalyzePage /> : view === "url" ? <UrlCheckerPage /> : view === "history" ? <HistoryPage /> : <LearnPage />}
+      <div className="page-content" key={view}>
+        {view === "dashboard" ? <DashboardPage onOpenHistory={() => handleViewChange("history")} /> :
+          view === "analyze" ? <AnalyzePage /> :
+          view === "url" ? <UrlCheckerPage /> :
+          view === "history" ? <HistoryPage /> : <LearnPage />}
       </div>
     </main>
   );

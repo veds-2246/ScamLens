@@ -24,6 +24,14 @@ test("message reports include evidence, risk and limitation", () => {
       }],
       nextSteps: ["Verify independently."],
       limitation: "This is a heuristic result, not proof.",
+      threatIntel: {
+        provider: "URLhaus",
+        status: "match",
+        checkedAt: "2026-10-28T10:00:00.000Z",
+        message: "URLhaus has a record for this URL.",
+        threat: "malware_download",
+        tags: ["exe"],
+      },
     },
   });
   assert.match(report, /ScamLens message report/);
@@ -31,4 +39,6 @@ test("message reports include evidence, risk and limitation", () => {
   assert.match(report, /Request for secrets/);
   assert.match(report, /\[redacted\]/);
   assert.match(report, /not proof/i);
+  assert.match(report, /External reputation: URLhaus \/ match/);
+  assert.match(report, /malware_download/);
 });

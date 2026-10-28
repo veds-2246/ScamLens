@@ -8,7 +8,7 @@ import { downloadJsonReport, downloadReport, printReport, shareReport } from "@/
 import type { HistoryEntry } from "@/types/history";
 
 export default function HistoryPage() {
-  const [entries, setEntries] = useState<HistoryEntry[]>(getHistory);
+  const [entries, setEntries] = useState<HistoryEntry[]>([]);
   const [sharedId, setSharedId] = useState<string | null>(null);
   const [selected, setSelected] = useState<HistoryEntry | null>(null);
   useEffect(() => {

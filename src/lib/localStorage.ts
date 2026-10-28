@@ -30,7 +30,7 @@ export function saveHistory(entry: HistoryEntry, includeInput = false) {
         : entry.result,
   };
   try {
-    window.localStorage.setItem(HISTORY_KEY, JSON.stringify([safeEntry, ...getHistory()].slice(0, 50)));
+    window.localStorage.setItem(HISTORY_KEY, JSON.stringify([safeEntry, ...getHistory().filter((entry) => entry.id !== safeEntry.id)].slice(0, 50)));
     notifyStorage();
   } catch {
     // Private mode and exhausted storage should never interrupt a local analysis.

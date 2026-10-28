@@ -5,6 +5,7 @@ import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import { quizQuestions } from "@/data/quizQuestions";
+import { saveQuizAttempt } from "@/lib/localStorage";
 
 export default function LearnPage() {
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -26,6 +27,7 @@ export default function LearnPage() {
     if (!hasAnswered) return;
     if (questionIndex === quizQuestions.length - 1) {
       setFinished(true);
+      saveQuizAttempt({ id: crypto.randomUUID(), createdAt: new Date().toISOString(), score, total: quizQuestions.length });
       return;
     }
     setQuestionIndex((current) => current + 1);

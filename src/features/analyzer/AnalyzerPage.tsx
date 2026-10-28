@@ -9,6 +9,7 @@ import { sampleMessages } from "@/data/sampleMessages";
 import { analyzeMessage } from "@/lib/analyzeMessage";
 import type { AnalysisResult } from "@/types/analysis";
 import AnalysisReport from "./AnalysisReport";
+import { saveHistory } from "@/lib/localStorage";
 
 type AnalyzerStatus = "idle" | "loading" | "ready" | "error";
 
@@ -64,6 +65,15 @@ export default function AnalyzerPage() {
         return;
       }
       setResult(analysis);
+      saveHistory({
+        id: crypto.randomUUID(),
+        kind: "message",
+        createdAt: new Date().toISOString(),
+        label: "Message analysis",
+        riskLevel: analysis.riskLevel,
+        score: analysis.score,
+        result: analysis,
+      });
       setStatus("ready");
       window.requestAnimationFrame(() => {
         document.getElementById("signal-report")?.focus();

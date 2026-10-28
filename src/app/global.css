@@ -57,6 +57,7 @@ button:focus-visible, textarea:focus-visible { outline: 3px solid rgba(8, 127, 1
 .header-status { align-items: center; color: var(--color-secondary); display: flex; font-size: var(--text-supporting); gap: 0.5rem; }
 .status-dot { background: #35ad83; border-radius: 50%; height: 0.5rem; width: 0.5rem; }
 .app-navigation { background: rgba(255,255,255,0.65); border: 1px solid var(--color-border); border-radius: var(--radius-md); display: inline-flex; gap: 0.25rem; padding: 0.3rem; }
+.app-navigation { flex-wrap: wrap; }
 .nav-item { align-items: center; background: transparent; border: 0; border-radius: 0.75rem; color: var(--color-secondary); display: flex; font-weight: 600; gap: 0.5rem; padding: 0.7rem 1.1rem; transition: background 160ms ease, color 160ms ease, transform 160ms ease; }
 .nav-item:hover { transform: translateY(-1px); }
 .nav-item.is-active { background: var(--color-surface); box-shadow: var(--shadow-soft); color: var(--color-primary); }
@@ -73,7 +74,7 @@ h2 { font-size: var(--text-section-heading); line-height: 1.25; }
 h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 .intro-copy { color: var(--color-secondary); margin: 0.8rem 0 0; max-width: 40rem; }
 .dashboard-grid { align-items: stretch; display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
-.glass-card { background: rgba(255,255,255,0.78); border: 1px solid rgba(220,231,226,0.95); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 1.75rem; backdrop-filter: blur(12px); }
+.glass-card { background: rgba(255,255,255,0.78); border: 1px solid rgba(220,231,226,0.95); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); min-width: 0; padding: 1.75rem; backdrop-filter: blur(12px); }
 .card-heading { align-items: flex-start; display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
 .badge { border-radius: 99rem; display: inline-flex; font-size: var(--text-metadata); font-weight: 600; padding: 0.35rem 0.65rem; white-space: nowrap; }
 .badge-teal { background: var(--color-pale-teal); color: var(--color-primary-dark); }
@@ -135,6 +136,18 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
 .lesson-card { background: linear-gradient(140deg, rgba(221,247,239,0.9), rgba(255,255,255,0.82) 62%); position: relative; }
 .lesson-number { color: rgba(8,127,104,0.22); font-family: var(--font-technical); font-size: 4rem; font-weight: 600; line-height: 1; position: absolute; right: 1.5rem; top: 1.25rem; }
 .lesson-footer { align-items: center; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.25rem; }
+.url-card { max-width: 56rem; }
+.url-card input { margin-bottom: 0.2rem; }
+.url-result { border-top: 1px solid var(--color-border); display: grid; gap: 1rem; margin-top: 1.75rem; padding-top: 1.75rem; }
+.url-result h3 { margin-top: 0.5rem; }
+.history-list { display: grid; gap: 0.75rem; }
+.history-item { align-items: center; background: rgba(247,250,249,0.7); border: 1px solid var(--color-border); border-radius: var(--radius-sm); display: flex; gap: 1rem; justify-content: space-between; min-width: 0; padding: 1rem; }
+.history-item h3 { overflow-wrap: anywhere; }
+.history-item > div:first-child { min-width: 0; }
+.history-actions { align-items: flex-end; display: flex; flex-direction: column; gap: 0.6rem; }
+.insight-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(4, 1fr); }
+.metric-value { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin: 0.5rem 0 0; }
+.metric-value span { color: var(--color-secondary); font-size: 1rem; margin-left: 0.2rem; }
 
 @media (max-width: 700px) {
   :root { --text-page-title: 1.75rem; --text-section-heading: 1.3rem; }
@@ -143,9 +156,15 @@ h3 { font-family: var(--font-display); font-size: var(--text-card-title); }
   .header-status { display: none; }
   .page-content { padding-top: 2.5rem; }
   .dashboard-grid { grid-template-columns: 1fr; }
+  .insight-grid { grid-template-columns: repeat(2, 1fr); }
   .glass-card { padding: 1.25rem; }
   .sample-option small { max-width: 13rem; }
   .analyzer-actions .button { width: 100%; }
+  .history-item { align-items: flex-start; flex-direction: column; }
+  .page-intro > div, .card-heading > div { min-width: 0; }
+  .history-actions { align-items: stretch; display: grid; flex-direction: row; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .history-actions .badge { grid-column: 1 / -1; justify-self: start; }
+  .history-actions .button { min-width: 0; width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

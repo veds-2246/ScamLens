@@ -1,9 +1,19 @@
 import type { HistoryEntry, QuizAttempt } from "@/types/history";
-import { saveCloudHistory, deleteCloudHistory, clearCloudHistory } from "@/lib/supabase/history";
 
 const HISTORY_KEY = "scamlens.history.v1";
 const QUIZ_KEY = "scamlens.quiz.v1";
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null;
+const hasCloudSyncConfig = () =>
+  typeof process !== "undefined" &&
+  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+
+function runCloudHistorySync(task: (cloudHistory: typeof import("./supabase/history")) => Promise<unknown>) {
+  if (!hasCloudSyncConfig()) return;
+  void import("./supabase/history")
+    .then(task)
+    .catch(() => { /* Cloud sync must never interrupt a local analysis. */ });
+}
+
 function read<T>(key: string, fallback: T, validate: (value: unknown) => value is T): T {
   if (typeof window === "undefined") return fallback;
   try { const parsed: unknown = JSON.parse(window.localStorage.getItem(key) ?? "null"); return validate(parsed) ? parsed : fallback; }
@@ -30,18 +40,18 @@ export function saveHistory(entry: HistoryEntry, includeInput = false) {
   try {
     window.localStorage.setItem(HISTORY_KEY, JSON.stringify([safeEntry, ...getHistory().filter((item) => item.id !== safeEntry.id)].slice(0, 50)));
     notifyStorage();
-    void saveCloudHistory(safeEntry).catch(() => { /* Cloud sync must never interrupt a local analysis. */ });
+    runCloudHistorySync((cloudHistory) => cloudHistory.saveCloudHistory(safeEntry));
   } catch { /* Private mode and exhausted storage should never interrupt a local analysis. */ }
 }
 export function deleteHistory(id: string) {
   if (typeof window === "undefined") return;
   try { window.localStorage.setItem(HISTORY_KEY, JSON.stringify(getHistory().filter((entry) => entry.id !== id))); notifyStorage(); }
   catch { /* Storage is optional. */ }
-  void deleteCloudHistory(id).catch(() => { /* Local deletion succeeds even when cloud is offline. */ });
+  runCloudHistorySync((cloudHistory) => cloudHistory.deleteCloudHistory(id));
 }
 export function clearHistory() {
   if (typeof window !== "undefined") { try { window.localStorage.removeItem(HISTORY_KEY); notifyStorage(); } catch { /* Storage is optional. */ } }
-  void clearCloudHistory().catch(() => { /* Local deletion succeeds even when cloud is offline. */ });
+  runCloudHistorySync((cloudHistory) => cloudHistory.clearCloudHistory());
 }
 export function getQuizAttempts(): QuizAttempt[] { return read(QUIZ_KEY, [], quizList); }
 export function saveQuizAttempt(attempt: QuizAttempt) {

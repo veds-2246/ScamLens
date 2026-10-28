@@ -5,6 +5,16 @@ export function reportText(entry: HistoryEntry): string {
   const lines = [`ScamLens ${entry.kind} report`, `Checked: ${new Date(entry.createdAt).toLocaleString()}`, `Risk: ${entry.riskLevel} (${entry.score}/100)`, `Summary: ${result.summary}`];
   if ("signals" in result) lines.push("Signals:", ...result.signals.map((signal) => `- ${signal.title}: ${signal.explanation}`));
   if ("findings" in result) lines.push("Evidence:", ...result.findings.map((finding) => `- ${finding.title}: ${finding.matchedPhrase}`));
+  if ("threatIntel" in result && result.threatIntel) {
+    lines.push(
+      "",
+      `External reputation: ${result.threatIntel.provider} / ${result.threatIntel.status}`,
+      `Reputation checked: ${new Date(result.threatIntel.checkedAt).toLocaleString()}`,
+      result.threatIntel.message,
+    );
+    if (result.threatIntel.threat) lines.push(`Threat category: ${result.threatIntel.threat}`);
+    if (result.threatIntel.tags?.length) lines.push(`Threat tags: ${result.threatIntel.tags.join(", ")}`);
+  }
   lines.push("", result.limitation);
   return lines.join("\n");
 }
